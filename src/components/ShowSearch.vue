@@ -22,20 +22,20 @@
         <p v-if="searchError">No results found.</p>
 
         <div class="columns is-multiline">
-            <div class="column is-2" v-for="show in searchResult" :key="show.show.id">
+            <div class="column is-2" v-for="show in searchResult" :key="show.id">
                 <div class="card">
                     <div class="card-image">
-                        <img v-if="show.show.image"
-                          :src="show.show.image.medium" 
-                          :alt="show.show.name"
+                        <img v-if="show.showImage"
+                          :src="show.showImage" 
+                          :alt="show.showName"
                         >
                     </div>
                     <div class="card-content">
                         <p class="title is-4">
-                            {{ show.show.name }}
+                            {{ show.showName }}
                         </p>
-                        <p class="subtitle is-6" v-if="show.show.network">
-                            Running on {{ show.show.network.name }}
+                        <p class="subtitle is-6" v-if="show.showNetwork">
+                            Running on {{ show.showNetwork.name }}
                         </p>
                     </div>
                 </div>
@@ -45,23 +45,42 @@
 </template>
 <script>
 import Fetch from "@/library/Fetch";
+import { mergeShowData } from "@/utils/transformers";
 
 export default {
     data() {
         return {
             searchInput: "",
             searchResult: [],
-            searchError: false,
+            searchError: false, 
         };
     },
     methods: {
         search() {
+            // clear the old results
             this.searchResult = [];
             this.searchError = false; 
             Fetch.get("/search/shows?q=" + this.searchInput)
             .then(resp => {
                 if(resp.length > 0) {
-                    this.searchResult = resp;
+                    const transformedData = [];
+
+                    // transform data to my format
+                    mergeShowData(transformedData, resp);
+                    transformedData.forEach((show, index) => {
+                        const regex = /uploads.*/;
+                        if(show.showImage) {
+                            // download the image
+                            const path = show.showImage.match(regex);
+                            fetch("http://localhost:3002/tvmaze_statics/" + path)
+                            .then(data => data.blob())
+                            .then(image => {
+                                transformedData[index].showImage = URL.createObjectURL(image);
+                                this.searchResult.push(transformedData[index]);
+                            })
+                            .catch(error => console.log(error));
+                        }
+                    })
                 } else {
                     this.searchError = true;
                 }
