@@ -59,7 +59,6 @@ export default {
                 });
 
             }
-            console.log("Show details: ", resp);
         });
 
         // fetching the episodes of the show
@@ -78,7 +77,6 @@ export default {
                 schedule[key].episodes.unshift(e);  
             });
             this.schedule = schedule;
-            console.log("show schedule: ", resp)
         });
     },
     data() {
