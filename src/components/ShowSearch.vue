@@ -24,16 +24,20 @@
         <div class="columns is-multiline">
             <div class="column is-2" v-for="show in searchResult" :key="show.id">
                 <div class="card">
-                    <div class="card-image">
-                        <img v-if="show.showImage"
-                          :src="show.showImage" 
-                          :alt="show.showName"
-                        >
-                    </div>
+                    <router-link :to="'/shows/' + show.id">
+                        <div class="card-image">
+                            <img v-if="show.showImage"
+                              :src="show.showImage" 
+                              :alt="show.showName"
+                            >
+                        </div>
+                    </router-link>
                     <div class="card-content">
-                        <p class="title is-4">
-                            {{ show.showName }}
-                        </p>
+                        <router-link :to="'/shows/' + show.id">
+                            <p class="title is-4">
+                                {{ show.showName }}
+                            </p>
+                        </router-link>
                         <p class="subtitle is-6" v-if="show.showNetwork">
                             Running on {{ show.showNetwork.name }}
                         </p>
