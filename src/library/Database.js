@@ -26,10 +26,19 @@ export const collections = {
 export default {
   async set_data(subscriptions) {
     const subscriptionsRef = doc(db, "subscriptions", "shows");
-    await setDoc(subscriptionsRef, subscriptions);
+    try {
+      await setDoc(subscriptionsRef, { subscriptions });
+    } catch (error) {
+      console.log(error);
+    }
   },
   async get_data() {
-    const subscriptionsSnapshot = await getDocs(collections.subscriptions);
-    return subscriptionsSnapshot.map((doc) => doc.data());
+    try {
+      const subscriptionsSnapshot = await getDocs(collections.subscriptions);
+      const docsArray = subscriptionsSnapshot.docs.map((doc) => doc.data());
+      return docsArray[0].subscriptions;
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
