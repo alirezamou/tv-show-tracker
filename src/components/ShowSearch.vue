@@ -42,6 +42,16 @@
                             Running on {{ show.showNetwork.name }}
                         </p>
                     </div>
+                    <div class="card-footer">
+                        <div class="card-footer-item">
+                            <a v-if="!is_subscribed(show)" @click="subscribe(show)">
+                                <font-awesome-icon icon="fa-solid fa-rss"></font-awesome-icon> Subscribe
+                            </a>
+                            <a class="has-text-success" v-if="is_subscribed(show)" @click="subscribe(show)">
+                                <font-awesome-icon icon="fa-solid fa-rss"></font-awesome-icon> Subscribed!
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,6 +62,12 @@ import Fetch from "@/library/Fetch";
 import { mergeShowData } from "@/utils/transformers";
 
 export default {
+    name: "ShowSearch",
+    props: {
+        is_subscribed: {
+            type: Function,
+        }
+    },
     data() {
         return {
             searchInput: "",
@@ -60,6 +76,9 @@ export default {
         };
     },
     methods: {
+        subscribe(show) {
+            this.$emit("subscribe", show);
+        },
         search() {
             // clear the old results
             this.searchResult = [];
