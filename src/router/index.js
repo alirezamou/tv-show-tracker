@@ -12,7 +12,7 @@ const router = createRouter({
     {
       name: "ShowDetails",
       path: "/shows/:id",
-      component: import("@/components/ShowDetails.vue"),
+      component: () => import("@/components/ShowDetails.vue"),
     },
   ],
 });
