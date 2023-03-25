@@ -10,9 +10,10 @@ import {
   faSearch,
   faTimes,
   faAngleDoubleLeft,
+  faRss,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSearch, faTimes, faAngleDoubleLeft);
+library.add(faSearch, faTimes, faAngleDoubleLeft, faRss);
 
 const app = createApp(App);
 
