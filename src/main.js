@@ -6,9 +6,13 @@ import "bulma/css/bulma.css";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faTimes,
+  faAngleDoubleLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSearch, faTimes);
+library.add(faSearch, faTimes, faAngleDoubleLeft);
 
 const app = createApp(App);
 
